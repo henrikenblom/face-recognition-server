@@ -1,13 +1,13 @@
-from flask import Flask
 import face_recognition
-from PIL import Image
+from flask import Flask, request
 
 app = Flask(__name__)
 
 
 @app.route('/profile_image_upload', methods=['POST'])
 def profile_image_upload():
-    return 'Hello World!'
+    file = request.files['file']
+    return detect_faces_in_image(file)
 
 
 def detect_faces_in_image(file_stream):
