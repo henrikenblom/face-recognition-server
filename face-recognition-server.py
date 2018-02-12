@@ -28,7 +28,7 @@ def detect_faces_in_image(file_stream, filename):
     top, right, bottom, left = face_locations[0]
     face_image = image[top:bottom, left:right]
     pil_image = Image.fromarray(face_image)
-    output_filename = 'static/' + filename + '/' + time.time() + '.jpg'
+    output_filename = "static/{}/{}.jpg".format(filename, time.time().hex())
     pil_image.save(output_filename, 'jpeg')
     return jsonify(status='OK', url='http://titan.enblom.com/' + output_filename)
 
