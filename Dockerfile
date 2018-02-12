@@ -12,6 +12,11 @@ RUN apt-get install -y build-essential cmake pkg-config \
                     python3 python3-dev python3-numpy
 
 RUN apt-get install -y wget vim python3-tk python3-pip
+RUN wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1704/x86_64/cuda-repo-ubuntu1704_9.1.85-1_amd64.deb
+RUN dpkg -i cuda-repo-ubuntu1704_9.1.85-1_amd64.deb
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1704/x86_64/7fa2af80.pub
+RUN apt-get update
+RUN apt-get install cuda
 
 WORKDIR /
 RUN wget -O opencv.zip https://github.com/Itseez/opencv/archive/3.2.0.zip \
