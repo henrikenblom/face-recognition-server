@@ -1,6 +1,5 @@
 tensorflow-gpu
 keras
-setuptools
 matplotlib
 numpy
 pandas
@@ -8,3 +7,4 @@ jupyter
 scikit-learn
 h5py
 requests
+flask
