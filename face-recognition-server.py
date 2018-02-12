@@ -1,4 +1,5 @@
 import face_recognition
+from PIL import Image
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -7,20 +8,28 @@ app = Flask(__name__)
 @app.route('/profile_image_upload', methods=['POST'])
 def profile_image_upload():
     file = request.files['file']
-    return detect_faces_in_image(file)
+    return detect_faces_in_image(file, file.filename)
 
 
-def detect_faces_in_image(file_stream):
+def detect_faces_in_image(file_stream, filename):
     image = face_recognition.load_image_file(file_stream)
 
     face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
-    print("I found {} face(s) in this photograph.".format(len(face_locations)))
 
-    for face_location in face_locations:
-        # Print the location of each face in this image
-        top, right, bottom, left = face_location
-        print("A face is located at pixel location Top: {}, Left: {}, Bottom: {}, Right: {}".format(top, left, bottom,
-                                                                                                    right))
+    if not face_locations:
+        return 'NO_FACE'
+
+    if len(face_locations) > 1:
+        return 'TOO_MANY_FACES'
+
+    top, right, bottom, left = face_locations[0]
+    print("A face is located at pixel location Top: {}, Left: {}, Bottom: {}, Right: {}".format(top, left, bottom,
+                                                                                                right))
+    face_image = image[top:bottom, left:right]
+    pil_image = Image.fromarray(face_image)
+    outputfilename = 'static/' + filename + '.jpg'
+    pil_image.save(outputfilename, 'jpeg')
+    return 'http://titan.enblom.com/' + outputfilename
 
 
 if __name__ == '__main__':
