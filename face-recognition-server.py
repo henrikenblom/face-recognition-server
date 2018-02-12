@@ -1,6 +1,6 @@
 import face_recognition
 from PIL import Image
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -19,17 +19,17 @@ def detect_faces_in_image(file_stream, filename):
     face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
 
     if not face_locations:
-        return 'NO_FACE'
+        return jsonify(status='NO_FACE')
 
     if len(face_locations) > 1:
-        return 'TOO_MANY_FACES'
+        return jsonify(status='TOO_MANY_FACES')
 
     top, right, bottom, left = face_locations[0]
     face_image = image[top:bottom, left:right]
     pil_image = Image.fromarray(face_image)
     outputfilename = 'static/' + filename + '.jpg'
     pil_image.save(outputfilename, 'jpeg')
-    return 'http://titan.enblom.com/' + outputfilename
+    return jsonify(status='OK', url='http://titan.enblom.com/' + outputfilename)
 
 
 if __name__ == '__main__':
