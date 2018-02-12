@@ -7,6 +7,7 @@ scikit-learn
 h5py
 requests
 flask
+flask-cors
 firebase-admin
 face_recognition
 face_recognition_models

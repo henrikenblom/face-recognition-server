@@ -1,8 +1,10 @@
 import face_recognition
 from PIL import Image
 from flask import Flask, request
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/profile_image_upload', methods=['POST'])
@@ -23,8 +25,6 @@ def detect_faces_in_image(file_stream, filename):
         return 'TOO_MANY_FACES'
 
     top, right, bottom, left = face_locations[0]
-    print("A face is located at pixel location Top: {}, Left: {}, Bottom: {}, Right: {}".format(top, left, bottom,
-                                                                                                right))
     face_image = image[top:bottom, left:right]
     pil_image = Image.fromarray(face_image)
     outputfilename = 'static/' + filename + '.jpg'
