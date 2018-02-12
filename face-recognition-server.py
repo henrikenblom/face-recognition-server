@@ -8,7 +8,7 @@ app = Flask(__name__)
 @app.route('/profile_image_upload', methods=['POST'])
 def profile_image_upload():
     file = request.files['file']
-    return detect_faces_in_image(file, file.filename)
+    return detect_faces_in_image(file, request.form['name'])
 
 
 def detect_faces_in_image(file_stream, filename):
