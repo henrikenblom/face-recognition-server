@@ -39,7 +39,15 @@ def detect_faces_in_image(file_stream, filename):
 
     output_filename = "static/{}/{}.jpg".format(filename, time.time())
 
-    full_image.crop((left - MARGIN, top - (MARGIN * 0.5), right + MARGIN, bottom + (MARGIN * 4))).save(output_filename, 'jpeg')
+    newBottom = bottom + (MARGIN * 4)
+    newRight = right + MARGIN
+
+    if (newBottom > full_image.height):
+        newBottom = full_image.height
+    if (newRight > full_image.width):
+        newRight = full_image.width
+
+    full_image.crop((left - MARGIN, top - (MARGIN * 0.5), newRight, newBottom)).save(output_filename, 'jpeg')
     return jsonify(status='OK', url='http://titan.enblom.com/' + output_filename)
 
 
