@@ -31,7 +31,7 @@ def detect_faces_in_image(file_stream, filename):
     face_image = image[top:bottom, left:right]
     pil_image = Image.fromarray(face_image)
     output_directory = "static/{}".format(filename)
-    
+
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
 
@@ -41,4 +41,4 @@ def detect_faces_in_image(file_stream, filename):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=3000)
