@@ -28,7 +28,7 @@ def detect_faces_in_image(file_stream, filename):
         return jsonify(status='TOO_MANY_FACES')
 
     top, right, bottom, left = face_locations[0]
-    full_image = ImageEnhance.Brightness(Image.fromarray(image)).enhance(.2)
+    full_image = ImageEnhance.Brightness(Image.fromarray(image)).enhance(1.1)
 
     output_directory = "static/{}".format(filename)
 
