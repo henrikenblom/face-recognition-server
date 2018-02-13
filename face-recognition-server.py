@@ -18,7 +18,8 @@ def profile_image_upload():
 
 def detect_faces_in_image(file_stream, filename):
     image = face_recognition.load_image_file(file_stream)
-
+    width, height = image.size
+    print(width, height)
     face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
 
     if not face_locations:
@@ -38,6 +39,9 @@ def detect_faces_in_image(file_stream, filename):
     output_filename = "static/{}/{}.jpg".format(filename, time.time().as_integer_ratio())
     pil_image.save(output_filename, 'jpeg')
     return jsonify(status='OK', url='http://titan.enblom.com/' + output_filename)
+
+
+def
 
 
 if __name__ == '__main__':
