@@ -5,6 +5,7 @@ RUN pip3 install --upgrade pip
 RUN pip3 install -U -r /requirements.txt
 
 WORKDIR /app
+RUN mkdir /app/static
 
 ADD $PWD/*.py /app
 
