@@ -31,15 +31,13 @@ def detect_faces_in_image(file_stream, filename):
     face_image = image[top:bottom, left:right]
     pil_image = Image.fromarray(face_image)
 
-    full_image.crop((left, top, right, bottom))
-
     output_directory = "static/{}".format(filename)
 
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
 
-    output_filename = "static/{}/{}.jpg".format(filename, time.time().as_integer_ratio())
-    full_image.save(output_filename, 'jpeg')
+    output_filename = "static/{}/{}.jpg".format(filename, time.time())
+    full_image.crop((left, top, right, bottom)).save(output_filename, 'jpeg')
     return jsonify(status='OK', url='http://titan.enblom.com/' + output_filename)
 
 
