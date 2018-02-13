@@ -1,5 +1,6 @@
 FROM colemurray/medium-facenet-tutorial:latest-gpu
 
+RUN apt-get update
 RUN apt-get install git -y
 ADD $PWD/requirements.txt /requirements.txt
 RUN pip3 install --upgrade pip
