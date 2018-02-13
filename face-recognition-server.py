@@ -1,7 +1,7 @@
 import face_recognition
 import os
 import time
-from PIL import Image, ImageEnhance
+from PIL import Image, ImageEnhance, ImageOps
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
@@ -28,7 +28,7 @@ def detect_faces_in_image(file_stream, filename):
         return jsonify(status='TOO_MANY_FACES')
 
     top, right, bottom, left = face_locations[0]
-    full_image = ImageEnhance.Sharpness(ImageEnhance.Brightness(Image.fromarray(image)).enhance(1.1)).enhance(2)
+    full_image = ImageEnhance.Sharpness(ImageOps.autocontrast(Image.fromarray(image))).enhance(2)
 
     output_directory = "static/{}".format(filename)
 
