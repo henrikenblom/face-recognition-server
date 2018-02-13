@@ -27,8 +27,10 @@ def detect_faces_in_image(file_stream, filename):
         return jsonify(status='TOO_MANY_FACES')
 
     top, right, bottom, left = face_locations[0]
+    full_image = Image.fromarray(image)
     face_image = image[top:bottom, left:right]
     pil_image = Image.fromarray(face_image)
+
     output_directory = "static/{}".format(filename)
 
     if not os.path.exists(output_directory):
