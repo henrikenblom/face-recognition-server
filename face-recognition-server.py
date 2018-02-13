@@ -31,9 +31,7 @@ def detect_faces_in_image(file_stream, filename):
     face_image = image[top:bottom, left:right]
     pil_image = Image.fromarray(face_image)
 
-    print(left, top, right, bottom)
-
-    full_image.crop((left, top), (right, bottom))
+    full_image.crop((left, top, right, bottom))
 
     output_directory = "static/{}".format(filename)
 
