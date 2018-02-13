@@ -5,6 +5,7 @@ from PIL import Image
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
+MARGIN = 10
 app = Flask(__name__)
 CORS(app)
 
@@ -37,7 +38,8 @@ def detect_faces_in_image(file_stream, filename):
         os.makedirs(output_directory)
 
     output_filename = "static/{}/{}.jpg".format(filename, time.time())
-    full_image.crop((left, top, right, bottom)).save(output_filename, 'jpeg')
+
+    full_image.crop((left - MARGIN, top - MARGIN, right + MARGIN, bottom + MARGIN)).save(output_filename, 'jpeg')
     return jsonify(status='OK', url='http://titan.enblom.com/' + output_filename)
 
 
