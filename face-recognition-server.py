@@ -41,8 +41,5 @@ def detect_faces_in_image(file_stream, filename):
     return jsonify(status='OK', url='http://titan.enblom.com/' + output_filename)
 
 
-def
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000)
