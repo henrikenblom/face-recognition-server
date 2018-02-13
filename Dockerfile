@@ -1,7 +1,7 @@
 FROM colemurray/medium-facenet-tutorial:latest-gpu
 
 ADD $PWD/requirements.txt /requirements.txt
-RUN pip3 install -r /requirements.txt
+RUN pip3 install -U -r /requirements.txt
 
 WORKDIR /app
 
