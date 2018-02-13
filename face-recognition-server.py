@@ -39,7 +39,7 @@ def detect_faces_in_image(file_stream, filename):
 
     output_filename = "static/{}/{}.jpg".format(filename, time.time())
 
-    newBottom = bottom + (MARGIN * 4)
+    newBottom = bottom + (MARGIN * 2)
     newRight = right + MARGIN
 
     if (newBottom > full_image.height):
