@@ -1,7 +1,7 @@
 import face_recognition
 import os
 import time
-from PIL import Image
+from PIL import Image, ImageEnhance
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
@@ -28,10 +28,8 @@ def detect_faces_in_image(file_stream, filename):
         return jsonify(status='TOO_MANY_FACES')
 
     top, right, bottom, left = face_locations[0]
-    full_image = Image.fromarray(image)
-    face_image = image[top:bottom, left:right]
-    pil_image = Image.fromarray(face_image)
-
+    full_image = ImageEnhance.Brightness(Image.fromarray(image)).enhance(2)
+    
     output_directory = "static/{}".format(filename)
 
     if not os.path.exists(output_directory):
