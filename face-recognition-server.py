@@ -18,7 +18,7 @@ def profile_image_upload():
 
 def detect_faces_in_image(file_stream, filename):
 
-    test_image = Image.fromarray(file_stream)
+    test_image = Image.open(file_stream)
     image = face_recognition.load_image_file(file_stream)
 
     face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
