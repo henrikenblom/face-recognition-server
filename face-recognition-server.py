@@ -1,7 +1,7 @@
 import face_recognition
 import os
 import time
-from PIL import Image, ImageEnhance, ImageOps
+from PIL import Image, ImageEnhance, ImageOps, Draw
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
@@ -24,15 +24,10 @@ def detect_faces_in_image(file_stream, filename):
     if not face_locations:
         return jsonify(status='NO_FACE')
 
-    top, right, bottom, left = face_locations[0]
-    face_landmarks_list = face_recognition.face_landmarks(image[top:bottom, left:right])
-
-    if not face_landmarks_list:
-        return jsonify(status='NO_FULL_FACE')
-
     if len(face_locations) > 1:
         return jsonify(status='TOO_MANY_FACES')
 
+    top, right, bottom, left = face_locations[0]
     full_image = ImageEnhance.Sharpness(ImageOps.autocontrast(Image.fromarray(image))).enhance(2)
 
     output_directory = "static/{}".format(filename)
@@ -42,15 +37,50 @@ def detect_faces_in_image(file_stream, filename):
 
     output_filename = "static/{}/{}.jpg".format(filename, time.time())
 
-    newBottom = bottom + (MARGIN * 3)
-    newRight = right + MARGIN
+    bottom += (MARGIN * 3)
+    right += MARGIN
+    left -= MARGIN
+    top -= MARGIN
 
-    if (newBottom > full_image.height):
-        newBottom = full_image.height
-    if (newRight > full_image.width):
-        newRight = full_image.width
+    if bottom > full_image.height:
+        bottom = full_image.height
+    if right > full_image.width:
+        right = full_image.width
+    if left < 0:
+        left = 0
+    if top < 0:
+        top = 0
 
-    full_image.crop((left - MARGIN, top - MARGIN, newRight, newBottom)).save(output_filename, 'jpeg')
+    face_landmarks_list = face_recognition.face_landmarks(image[top:bottom, left:right])
+    if not face_landmarks_list:
+        return jsonify(status='NO_FULL_FACE')
+
+    face_landmarks = face_landmarks_list[0]
+    cropped_image = full_image.crop((left, top, right, bottom))
+    d = Draw(cropped_image, 'RGBA')
+
+    # Make the eyebrows into a nightmare
+    d.polygon(face_landmarks['left_eyebrow'], fill=(68, 54, 39, 128))
+    d.polygon(face_landmarks['right_eyebrow'], fill=(68, 54, 39, 128))
+    d.line(face_landmarks['left_eyebrow'], fill=(68, 54, 39, 150), width=5)
+    d.line(face_landmarks['right_eyebrow'], fill=(68, 54, 39, 150), width=5)
+
+    # Gloss the lips
+    d.polygon(face_landmarks['top_lip'], fill=(150, 0, 0, 128))
+    d.polygon(face_landmarks['bottom_lip'], fill=(150, 0, 0, 128))
+    d.line(face_landmarks['top_lip'], fill=(150, 0, 0, 64), width=8)
+    d.line(face_landmarks['bottom_lip'], fill=(150, 0, 0, 64), width=8)
+
+    # Sparkle the eyes
+    d.polygon(face_landmarks['left_eye'], fill=(255, 255, 255, 30))
+    d.polygon(face_landmarks['right_eye'], fill=(255, 255, 255, 30))
+
+    # Apply some eyeliner
+    d.line(face_landmarks['left_eye'] + [face_landmarks['left_eye'][0]], fill=(0, 0, 0, 110), width=6)
+    d.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=(0, 0, 0, 110), width=6)
+
+    cropped_image.save(output_filename, 'jpeg')
+
     return jsonify(status='OK', url='http://titan.enblom.com/' + output_filename)
 
 
