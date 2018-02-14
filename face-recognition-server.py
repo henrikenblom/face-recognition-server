@@ -41,7 +41,7 @@ def detect_faces_in_image(file_stream, filename):
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
 
-    output_filename = "static/{}/{}.jpg".format(filename, time.time())
+    output_filename = "static/{}/{}.jpg".format(filename, int(time.time() * 1000))
 
     bottom += (MARGIN * 3)
     right += MARGIN
