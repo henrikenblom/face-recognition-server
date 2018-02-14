@@ -9,7 +9,7 @@ from flask_cors import CORS
 MARGIN = 100
 LANDMARK_FILL = (77, 182, 172, 200)
 LANDMARK_WIDTH = 3
-ORIGINAL_CONSTRAINTS = (1200, 1200)
+ORIGINAL_CONSTRAINTS = (1000, 1000)
 THUMBNAIL_CONSTRAINTS = (400, 400)
 app = Flask(__name__)
 CORS(app)
@@ -79,10 +79,10 @@ def detect_faces_in_image(file_stream, filename):
     d.line(face_landmarks['left_eye'] + [face_landmarks['left_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
     d.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
 
-    left = face_landmarks['nose_bridge'][0][0] - 400
-    right = face_landmarks['nose_bridge'][0][0] + 400
-    top = face_landmarks['nose_bridge'][0][1] - 400
-    bottom = face_landmarks['nose_bridge'][0][1] + 400
+    left = face_landmarks['nose_bridge'][0][0] - 200
+    right = face_landmarks['nose_bridge'][0][0] + 200
+    top = face_landmarks['nose_bridge'][0][1] - 200
+    bottom = face_landmarks['nose_bridge'][0][1] + 200
 
     cropped_image = pre_cropped_image.crop((left, top, right, bottom))
 
