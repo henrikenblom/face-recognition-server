@@ -57,7 +57,7 @@ def detect_faces_in_image(file_stream, filename):
 
     face_landmarks = face_landmarks_list[0]
     cropped_image = full_image.crop((left, top, right, bottom))
-    d = Draw(cropped_image, 'RGBA')
+    d = ImageDraw.Draw(cropped_image, 'RGBA')
 
     # Make the eyebrows into a nightmare
     d.polygon(face_landmarks['left_eyebrow'], fill=(68, 54, 39, 128))
