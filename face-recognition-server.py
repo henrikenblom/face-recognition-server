@@ -11,6 +11,7 @@ LANDMARK_FILL = (77, 182, 172, 200)
 LANDMARK_WIDTH = 3
 ORIGINAL_CONSTRAINTS = (1000, 1000)
 THUMBNAIL_CONSTRAINTS = (400, 400)
+FACE_SIZE = 160
 app = Flask(__name__)
 CORS(app)
 
@@ -81,9 +82,9 @@ def detect_faces_in_image(file_stream, filename):
 
     scale = (face_landmarks['chin'][8][1] - face_landmarks['nose_bridge'][0][1]) / 100
     bottom = face_landmarks['chin'][8][1] + (10 * scale)
-    top = bottom - (180 * scale)
-    left = face_landmarks['nose_bridge'][0][0] - (90 * scale)
-    right = face_landmarks['nose_bridge'][0][0] + (90 *scale)
+    top = bottom - (FACE_SIZE * scale)
+    left = face_landmarks['nose_bridge'][0][0] - ((FACE_SIZE / 2) * scale)
+    right = face_landmarks['nose_bridge'][0][0] + ((FACE_SIZE / 2) * scale)
 
     cropped_image = pre_cropped_image.crop((left, top, right, bottom))
 
