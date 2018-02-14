@@ -19,7 +19,7 @@ def profile_image_upload():
 
 def detect_faces_in_image(file_stream, filename):
     pil_image = Image.open(file_stream)
-    pil_image.thumbnail((400, 400))
+    pil_image.thumbnail((600, 600))
     image = np.array(pil_image)
     face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
 
