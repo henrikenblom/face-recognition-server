@@ -19,7 +19,7 @@ def profile_image_upload():
 
 def detect_faces_in_image(file_stream, filename):
     pil_image = Image.open(file_stream)
-    pil_image.thumbnail((600, 600))
+    pil_image.thumbnail((700, 700))
     image = np.array(pil_image)
     face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
 
@@ -61,14 +61,14 @@ def detect_faces_in_image(file_stream, filename):
     cropped_image = full_image.crop((left, top, right, bottom))
     d = ImageDraw.Draw(cropped_image, 'RGBA')
 
-    d.line(face_landmarks['left_eyebrow'], fill=(68, 54, 39, 150), width=2)
-    d.line(face_landmarks['right_eyebrow'], fill=(68, 54, 39, 150), width=2)
+    d.line(face_landmarks['left_eyebrow'], fill=(0, 255, 0, 200), width=2)
+    d.line(face_landmarks['right_eyebrow'], fill=(0, 255, 0, 200), width=2)
 
-    d.line(face_landmarks['top_lip'], fill=(150, 0, 0, 64), width=2)
-    d.line(face_landmarks['bottom_lip'], fill=(150, 0, 0, 64), width=2)
+    d.line(face_landmarks['top_lip'], fill=(0, 255, 0, 200), width=2)
+    d.line(face_landmarks['bottom_lip'], fill=(0, 255, 0, 200), width=2)
 
-    d.line(face_landmarks['left_eye'] + [face_landmarks['left_eye'][0]], fill=(0, 0, 0, 110), width=2)
-    d.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=(0, 0, 0, 110), width=2)
+    d.line(face_landmarks['left_eye'] + [face_landmarks['left_eye'][0]], fill=(0, 255, 0, 200), width=2)
+    d.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=(0, 255, 0, 200), width=2)
 
     cropped_image.save(output_filename, 'jpeg')
 
