@@ -12,6 +12,7 @@ LANDMARK_WIDTH = 3
 ORIGINAL_CONSTRAINTS = (1000, 1000)
 THUMBNAIL_CONSTRAINTS = (400, 400)
 FACE_SIZE = 150
+HOSTNAME = 'http://titan.enblom.com/'
 app = Flask(__name__)
 CORS(app)
 
@@ -42,7 +43,9 @@ def detect_faces_in_image(file_stream, filename):
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
 
-    output_filename = "static/{}/{}.jpg".format(filename, int(time.time() * 1000))
+    unique_name = int(time.time() * 1000)
+    output_filename = "static/{}/{}.jpg".format(filename, unique_name)
+    output_landmarked_filename = "static/{}/{}_landmarked.jpg".format(filename, unique_name)
 
     bottom += (MARGIN * 3)
     right += MARGIN
@@ -63,8 +66,10 @@ def detect_faces_in_image(file_stream, filename):
         return jsonify(status='NO_FULL_FACE')
 
     face_landmarks = face_landmarks_list[0]
-    pre_cropped_image = full_image.crop((left, top, right, bottom))
-    d = ImageDraw.Draw(pre_cropped_image, 'RGBA')
+    pre_cropped_landmarked_image = full_image.crop((left, top, right, bottom))
+    pre_cropped_image = pre_cropped_landmarked_image.copy()
+
+    d = ImageDraw.Draw(pre_cropped_landmarked_image, 'RGBA')
 
     d.line(face_landmarks['chin'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
 
@@ -86,12 +91,16 @@ def detect_faces_in_image(file_stream, filename):
     left = face_landmarks['nose_bridge'][0][0] - ((FACE_SIZE / 2) * scale)
     right = face_landmarks['nose_bridge'][0][0] + ((FACE_SIZE / 2) * scale)
 
-    cropped_image = pre_cropped_image.crop((left, top, right, bottom))
+    landmarked_output_image = pre_cropped_landmarked_image.crop((left, top, right, bottom))
+    output_image = pre_cropped_image.crop((left, top, right, bottom))
 
-    cropped_image.thumbnail(THUMBNAIL_CONSTRAINTS)
-    cropped_image.save(output_filename, 'jpeg')
+    output_image.thumbnail(THUMBNAIL_CONSTRAINTS)
+    output_image.save(output_filename, 'jpeg')
 
-    return jsonify(status='OK', url='http://titan.enblom.com/' + output_filename)
+    landmarked_output_image.thumbnail(THUMBNAIL_CONSTRAINTS)
+    landmarked_output_image.save(output_landmarked_filename, 'jpeg')
+
+    return jsonify(status='OK', url=HOSTNAME + output_filename, landmarked_url=HOSTNAME + output_landmarked_filename)
 
 
 if __name__ == '__main__':
