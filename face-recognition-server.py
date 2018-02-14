@@ -20,10 +20,12 @@ def detect_faces_in_image(file_stream, filename):
     image = face_recognition.load_image_file(file_stream)
 
     face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
-    face_landmarks_list = face_recognition.face_landmarks(image)
 
     if not face_locations:
         return jsonify(status='NO_FACE')
+
+    top, right, bottom, left = face_locations[0]
+    face_landmarks_list = face_recognition.face_landmarks(image[top:bottom, left:right])
 
     if not face_landmarks_list:
         return jsonify(status='NO_FULL_FACE')
@@ -31,7 +33,6 @@ def detect_faces_in_image(file_stream, filename):
     if len(face_locations) > 1:
         return jsonify(status='TOO_MANY_FACES')
 
-    top, right, bottom, left = face_locations[0]
     full_image = ImageEnhance.Sharpness(ImageOps.autocontrast(Image.fromarray(image))).enhance(2)
 
     output_directory = "static/{}".format(filename)
