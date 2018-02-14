@@ -46,6 +46,7 @@ def detect_faces_in_image(file_stream, filename):
     unique_name = int(time.time() * 1000)
     output_filename = "static/{}/{}.jpg".format(filename, unique_name)
     output_landmarked_filename = "static/{}/{}_landmarked.jpg".format(filename, unique_name)
+    output_landmark_filename = "static/{}/{}_landmark.png".format(filename, unique_name)
 
     bottom += (MARGIN * 3)
     right += MARGIN
@@ -68,7 +69,9 @@ def detect_faces_in_image(file_stream, filename):
     face_landmarks = face_landmarks_list[0]
     pre_cropped_landmarked_image = full_image.crop((left, top, right, bottom))
     pre_cropped_image = pre_cropped_landmarked_image.copy()
+    landmark_image = Image.new('RGBA', (pre_cropped_image.width, pre_cropped_image.height))
 
+    l = ImageDraw.Draw(landmark_image, 'RGBA')
     d = ImageDraw.Draw(pre_cropped_landmarked_image, 'RGBA')
 
     d.line(face_landmarks['chin'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
@@ -85,6 +88,20 @@ def detect_faces_in_image(file_stream, filename):
     d.line(face_landmarks['left_eye'] + [face_landmarks['left_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
     d.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
 
+    l.line(face_landmarks['chin'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+
+    l.line(face_landmarks['left_eyebrow'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+    l.line(face_landmarks['right_eyebrow'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+
+    l.line(face_landmarks['nose_bridge'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+    l.line(face_landmarks['nose_tip'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+
+    l.line(face_landmarks['top_lip'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+    l.line(face_landmarks['bottom_lip'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+
+    l.line(face_landmarks['left_eye'] + [face_landmarks['left_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+    l.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+
     scale = (face_landmarks['chin'][8][1] - face_landmarks['nose_bridge'][0][1]) / 100
     bottom = face_landmarks['chin'][8][1] + (10 * scale)
     top = bottom - (FACE_SIZE * scale)
@@ -93,6 +110,7 @@ def detect_faces_in_image(file_stream, filename):
 
     landmarked_output_image = pre_cropped_landmarked_image.crop((left, top, right, bottom))
     output_image = pre_cropped_image.crop((left, top, right, bottom))
+    landmark_output_image = landmark_image.crop((left, top, right, bottom))
 
     output_image.thumbnail(THUMBNAIL_CONSTRAINTS)
     output_image.save(output_filename, 'jpeg')
@@ -100,7 +118,13 @@ def detect_faces_in_image(file_stream, filename):
     landmarked_output_image.thumbnail(THUMBNAIL_CONSTRAINTS)
     landmarked_output_image.save(output_landmarked_filename, 'jpeg')
 
-    return jsonify(status='OK', url=HOSTNAME + output_filename, landmarked_url=HOSTNAME + output_landmarked_filename)
+    landmark_output_image.thumbnail(THUMBNAIL_CONSTRAINTS)
+    landmark_output_image.save(output_landmark_filename, 'png')
+
+    return jsonify(status='OK',
+                   url=HOSTNAME + output_filename,
+                   landmarked_url=HOSTNAME + output_landmarked_filename,
+                   landmark_url=HOSTNAME + output_landmark_filename)
 
 
 if __name__ == '__main__':
