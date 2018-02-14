@@ -6,7 +6,7 @@ from PIL import Image, ImageEnhance, ImageOps, ImageDraw
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-MARGIN = 50
+MARGIN = 100
 LANDMARK_FILL = (77, 182, 172, 200)
 LANDMARK_WIDTH = 3
 ORIGINAL_CONSTRAINTS = (1200, 1200)
@@ -62,8 +62,8 @@ def detect_faces_in_image(file_stream, filename):
         return jsonify(status='NO_FULL_FACE')
 
     face_landmarks = face_landmarks_list[0]
-    cropped_image = full_image.crop((left, top, right, bottom))
-    d = ImageDraw.Draw(cropped_image, 'RGBA')
+    pre_cropped_image = full_image.crop((left, top, right, bottom))
+    d = ImageDraw.Draw(pre_cropped_image, 'RGBA')
 
     d.line(face_landmarks['chin'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
 
@@ -78,6 +78,13 @@ def detect_faces_in_image(file_stream, filename):
 
     d.line(face_landmarks['left_eye'] + [face_landmarks['left_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
     d.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+
+    left = face_landmarks['nose_bridge'][0][0] - 400
+    right = face_landmarks['nose_bridge'][0][0] + 400
+    top = face_landmarks['nose_bridge'][0][1] - 400
+    bottom = face_landmarks['nose_bridge'][0][1] + 400
+
+    cropped_image = pre_cropped_image.crop((left, top, right, bottom))
 
     cropped_image.thumbnail(THUMBNAIL_CONSTRAINTS)
     cropped_image.save(output_filename, 'jpeg')
