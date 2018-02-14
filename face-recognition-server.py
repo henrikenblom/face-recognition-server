@@ -20,9 +20,13 @@ def detect_faces_in_image(file_stream, filename):
     image = face_recognition.load_image_file(file_stream)
 
     face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
+    face_landmarks_list = face_recognition.face_landmarks(image)
 
     if not face_locations:
         return jsonify(status='NO_FACE')
+
+    if not face_landmarks_list:
+        return jsonify(status='NO_FULL_FACE')
 
     if len(face_locations) > 1:
         return jsonify(status='TOO_MANY_FACES')
