@@ -6,7 +6,7 @@ from PIL import Image, ImageEnhance, ImageOps, ImageDraw
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-MARGIN = 100
+MARGIN = 10
 app = Flask(__name__)
 CORS(app)
 
