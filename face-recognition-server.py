@@ -8,7 +8,7 @@ from flask_cors import CORS
 
 MARGIN = 50
 LANDMARK_FILL = (77, 182, 172, 200)
-LANDMARK_WIDTH = 1
+LANDMARK_WIDTH = 2
 app = Flask(__name__)
 CORS(app)
 
