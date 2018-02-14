@@ -9,6 +9,7 @@ from flask_cors import CORS
 MARGIN = 50
 LANDMARK_FILL = (77, 182, 172, 200)
 LANDMARK_WIDTH = 2
+THUMBNAIL_CONSTRAINTS = (1000, 1000)
 app = Flask(__name__)
 CORS(app)
 
@@ -21,7 +22,7 @@ def profile_image_upload():
 
 def detect_faces_in_image(file_stream, filename):
     pil_image = Image.open(file_stream)
-    pil_image.thumbnail((800, 800))
+    pil_image.thumbnail(THUMBNAIL_CONSTRAINTS)
     image = np.array(pil_image)
     face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
 
