@@ -79,7 +79,7 @@ def detect_faces_in_image(file_stream, filename):
     d.line(face_landmarks['left_eye'] + [face_landmarks['left_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
     d.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
 
-    scale = 100 / (face_landmarks['chin'][8][1] - face_landmarks['nose_bridge'][0][1])
+    scale = (face_landmarks['chin'][8][1] - face_landmarks['nose_bridge'][0][1]) / 100
     print(scale)
     bottom = face_landmarks['chin'][8][1] - 10
     top = face_landmarks['nose_bridge'][0][1] - 200
