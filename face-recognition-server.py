@@ -1,6 +1,7 @@
 import face_recognition
 import os
 import time
+import numpy as np
 from PIL import Image, ImageEnhance, ImageOps, ImageDraw
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -18,9 +19,7 @@ def profile_image_upload():
 
 def detect_faces_in_image(file_stream, filename):
 
-    test_image = Image.open(file_stream)
-    image = face_recognition.load_image_file(file_stream)
-
+    image = np.array(Image.open(file_stream).thumbnail(400))
     face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
 
     if not face_locations:
