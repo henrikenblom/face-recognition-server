@@ -6,7 +6,9 @@ from PIL import Image, ImageEnhance, ImageOps, ImageDraw
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-MARGIN = 20
+MARGIN = 50
+LANDMARK_FILL = (77, 182, 172, 200)
+LANDMARK_WIDTH = 1
 app = Flask(__name__)
 CORS(app)
 
@@ -61,19 +63,19 @@ def detect_faces_in_image(file_stream, filename):
     cropped_image = full_image.crop((left, top, right, bottom))
     d = ImageDraw.Draw(cropped_image, 'RGBA')
 
-    d.line(face_landmarks['chin'], fill=(77, 182, 172, 180), width=1)
+    d.line(face_landmarks['chin'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
 
-    d.line(face_landmarks['left_eyebrow'], fill=(77, 182, 172, 180), width=1)
-    d.line(face_landmarks['right_eyebrow'], fill=(77, 182, 172, 180), width=1)
+    d.line(face_landmarks['left_eyebrow'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+    d.line(face_landmarks['right_eyebrow'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
 
-    d.line(face_landmarks['nose_bridge'], fill=(77, 182, 172, 180), width=1)
-    d.line(face_landmarks['nose_tip'], fill=(77, 182, 172, 180), width=1)
+    d.line(face_landmarks['nose_bridge'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+    d.line(face_landmarks['nose_tip'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
 
-    d.line(face_landmarks['top_lip'], fill=(77, 182, 172, 180), width=1)
-    d.line(face_landmarks['bottom_lip'], fill=(77, 182, 172, 180), width=1)
+    d.line(face_landmarks['top_lip'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+    d.line(face_landmarks['bottom_lip'], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
 
-    d.line(face_landmarks['left_eye'] + [face_landmarks['left_eye'][0]], fill=(77, 182, 172, 180), width=1)
-    d.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=(77, 182, 172, 180), width=1)
+    d.line(face_landmarks['left_eye'] + [face_landmarks['left_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
+    d.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
 
     cropped_image.save(output_filename, 'jpeg')
 
