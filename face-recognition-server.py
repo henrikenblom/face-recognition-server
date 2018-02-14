@@ -9,7 +9,8 @@ from flask_cors import CORS
 MARGIN = 50
 LANDMARK_FILL = (77, 182, 172, 200)
 LANDMARK_WIDTH = 2
-THUMBNAIL_CONSTRAINTS = (1000, 1000)
+ORIGINAL_CONSTRAINTS = (1200, 1200)
+THUMBNAIL_CONSTRAINTS = (600, 600)
 app = Flask(__name__)
 CORS(app)
 
@@ -22,7 +23,7 @@ def profile_image_upload():
 
 def detect_faces_in_image(file_stream, filename):
     pil_image = Image.open(file_stream)
-    pil_image.thumbnail(THUMBNAIL_CONSTRAINTS)
+    pil_image.thumbnail(ORIGINAL_CONSTRAINTS)
     image = np.array(pil_image)
     face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
 
@@ -78,6 +79,7 @@ def detect_faces_in_image(file_stream, filename):
     d.line(face_landmarks['left_eye'] + [face_landmarks['left_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
     d.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
 
+    cropped_image.thumbnail(THUMBNAIL_CONSTRAINTS)
     cropped_image.save(output_filename, 'jpeg')
 
     return jsonify(status='OK', url='http://titan.enblom.com/' + output_filename)
