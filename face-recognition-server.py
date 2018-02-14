@@ -79,11 +79,11 @@ def detect_faces_in_image(file_stream, filename):
     d.line(face_landmarks['left_eye'] + [face_landmarks['left_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
     d.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=LANDMARK_FILL, width=LANDMARK_WIDTH)
 
-    scale = 100 / (face_landmarks['chin'][8][1] - face_landmarks['nose_bridge'][0][1])
-    bottom = face_landmarks['chin'][8][1] + (10 * scale)
-    top = bottom - (50 * scale)
-    left = face_landmarks['nose_bridge'][0][0] - (20 * scale)
-    right = face_landmarks['nose_bridge'][0][0] + (20 *scale)
+    scale = (face_landmarks['chin'][8][1] - face_landmarks['nose_bridge'][0][1]) / 100
+    bottom = face_landmarks['chin'][8][1] + (20 * scale)
+    top = bottom - (100 * scale)
+    left = face_landmarks['nose_bridge'][0][0] - (50 * scale)
+    right = face_landmarks['nose_bridge'][0][0] + (50 *scale)
 
     cropped_image = pre_cropped_image.crop((left, top, right, bottom))
 
