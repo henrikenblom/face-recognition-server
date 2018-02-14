@@ -1,7 +1,7 @@
 import face_recognition
 import os
 import time
-from PIL import Image, ImageEnhance, ImageOps, Draw
+from PIL import Image, ImageEnhance, ImageOps, ImageDraw
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
