@@ -61,8 +61,13 @@ def detect_faces_in_image(file_stream, filename):
     cropped_image = full_image.crop((left, top, right, bottom))
     d = ImageDraw.Draw(cropped_image, 'RGBA')
 
+    d.line(face_landmarks['chin'], fill=(77, 182, 172, 180), width=1)
+
     d.line(face_landmarks['left_eyebrow'], fill=(77, 182, 172, 180), width=1)
     d.line(face_landmarks['right_eyebrow'], fill=(77, 182, 172, 180), width=1)
+
+    d.line(face_landmarks['nose_bridge'], fill=(77, 182, 172, 180), width=1)
+    d.line(face_landmarks['nose_tip'], fill=(77, 182, 172, 180), width=1)
 
     d.line(face_landmarks['top_lip'], fill=(77, 182, 172, 180), width=1)
     d.line(face_landmarks['bottom_lip'], fill=(77, 182, 172, 180), width=1)
