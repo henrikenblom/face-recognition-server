@@ -12,7 +12,7 @@ LANDMARK_WIDTH = 3
 ORIGINAL_CONSTRAINTS = (1000, 1000)
 THUMBNAIL_CONSTRAINTS = (400, 400)
 FACE_SIZE = 150
-HOSTNAME = 'http://titan.enblom.com/'
+HOSTNAME = 'https://titan.enblom.com/'
 app = Flask(__name__)
 CORS(app)
 
