@@ -2,7 +2,6 @@ import face_recognition
 import os
 import time
 import numpy as np
-import SSL
 from PIL import Image, ImageEnhance, ImageOps, ImageDraw
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -129,7 +128,4 @@ def detect_faces_in_image(file_stream, filename):
 
 
 if __name__ == '__main__':
-    context = SSL.Context(SSL.SSLv3_METHOD)
-    context.use_privatekey_file('titan_enblom_com.key')
-    context.use_certificate_file('titan_enblom_com.crt')
-    app.run(use_reloader=True, host='0.0.0.0',port=3000,ssl_context = context)
+    app.run(host='0.0.0.0', port=4000)
