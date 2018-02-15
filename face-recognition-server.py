@@ -128,4 +128,5 @@ def detect_faces_in_image(file_stream, filename):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000)
+    context = ('titan_enblom_com.crt', 'titan_enblom_com.key')
+    app.run(host='0.0.0.0', port=3000, ssl_context=context)
