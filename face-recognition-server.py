@@ -4,6 +4,7 @@ import time
 import numpy as np
 from PIL import Image, ImageEnhance, ImageOps, ImageDraw
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 MARGIN = 100
 LANDMARK_FILL = (77, 182, 172, 200)
@@ -13,6 +14,7 @@ THUMBNAIL_CONSTRAINTS = (640, 640)
 FACE_SIZE = 150
 HOSTNAME = 'https://titan.enblom.com/'
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/profile_image_upload', methods=['POST'])
