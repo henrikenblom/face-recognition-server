@@ -18,9 +18,6 @@ RUN dpkg -i libcudnn7-dev_7.0.5.15-1+cuda9.1_amd64.deb
 RUN pip3 install --upgrade pip
 RUN pip3 install -U -r /requirements.txt
 
-RUN ln -s /usr/lib/x86_64-linux-gnu/libcudnn.so.7.0.5 /usr/local/cuda/lib64/libcudnn.so
-RUN ln -s /usr/lib/x86_64-linux-gnu/libcudnn.so.7.0.5 /usr/local/cuda/lib64/libcudnn.so.7
-RUN ln -s /usr/lib/x86_64-linux-gnu/libcudnn.so.7.0.5 /usr/local/cuda/lib64/libcudnn.so.7.0.5
 RUN git clone https://github.com/davisking/dlib
 WORKDIR dlib
 RUN python3 setup.py install

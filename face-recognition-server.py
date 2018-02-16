@@ -24,11 +24,13 @@ def profile_image_upload():
 
 
 def detect_faces_in_image(file_stream, filename):
+    print('1')
     pil_image = Image.open(file_stream)
     pil_image.thumbnail(ORIGINAL_CONSTRAINTS)
     image = np.array(pil_image)
+    print('2')
     face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
-
+    print('3')
     if not face_locations:
         return jsonify(status='NO_FACE')
 
@@ -37,7 +39,7 @@ def detect_faces_in_image(file_stream, filename):
 
     top, right, bottom, left = face_locations[0]
     full_image = ImageEnhance.Sharpness(ImageOps.autocontrast(Image.fromarray(image))).enhance(3)
-
+    print('4')
     output_directory = "static/{}".format(filename)
 
     if not os.path.exists(output_directory):
@@ -62,6 +64,7 @@ def detect_faces_in_image(file_stream, filename):
     if top < 0:
         top = 0
 
+    print('5')
     face_landmarks_list = face_recognition.face_landmarks(image[top:bottom, left:right])
     if not face_landmarks_list:
         return jsonify(status='NO_FULL_FACE')
@@ -70,7 +73,7 @@ def detect_faces_in_image(file_stream, filename):
     pre_cropped_landmarked_image = full_image.crop((left, top, right, bottom))
     pre_cropped_image = pre_cropped_landmarked_image.copy()
     landmark_image = Image.new('RGBA', (pre_cropped_image.width, pre_cropped_image.height))
-
+    print('6')
     l = ImageDraw.Draw(landmark_image, 'RGBA')
     d = ImageDraw.Draw(pre_cropped_landmarked_image, 'RGBA')
 
