@@ -1,0 +1,18 @@
+version: "1"
+services:
+  face-recognition-server:
+    image: henrikenblom/face-recognition-server:latest
+    deploy:
+      replicas: 5
+      resources:
+        limits:
+          cpus: "1"
+          memory: 500M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "3000:3000"
+    networks:
+      - face-recognition-net
+networks:
+  face-recognition-net:
