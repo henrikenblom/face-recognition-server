@@ -1,6 +1,7 @@
 import face_recognition
 import os
 import time
+import pickle
 import numpy as np
 from PIL import Image, ImageEnhance, ImageOps, ImageDraw
 from flask import Flask, request, jsonify
@@ -45,6 +46,7 @@ def detect_faces_in_image(file_stream, filename):
     output_filename = "static/{}/{}.jpg".format(filename, unique_name)
     output_landmarked_filename = "static/{}/{}_landmarked.jpg".format(filename, unique_name)
     output_landmark_filename = "static/{}/{}_landmark.png".format(filename, unique_name)
+    output_model_filename = "static/{}/{}_model.dat".format(filename, unique_name)
 
     bottom += (MARGIN * 3)
     right += MARGIN
@@ -65,6 +67,11 @@ def detect_faces_in_image(file_stream, filename):
         return jsonify(status='NO_FULL_FACE')
 
     face_landmarks = face_landmarks_list[0]
+    face_model = face_recognition.face_encodings(image[top:bottom, left:right])[0]
+
+    with open(output_model_filename, 'wb') as handle:
+        pickle.dump(face_model, handle)
+
     pre_cropped_landmarked_image = full_image.crop((left, top, right, bottom))
     pre_cropped_image = pre_cropped_landmarked_image.copy()
     landmark_image = Image.new('RGBA', (pre_cropped_image.width, pre_cropped_image.height))
