@@ -1,4 +1,4 @@
-FROM colemurray/medium-facenet-tutorial:latest-gpu
+FROM nvidia/cuda:9.1-devel
 
 RUN apt-get update
 RUN apt-get install git -y
