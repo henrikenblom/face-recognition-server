@@ -2,6 +2,7 @@ FROM nvidia/cuda:9.1-devel
 
 RUN apt-get update
 RUN apt-get install git -y
+RUN apt-get install pip3
 ADD $PWD/requirements.txt /requirements.txt
 RUN pip3 install --upgrade pip
 RUN pip3 install -U -r /requirements.txt
