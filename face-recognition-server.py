@@ -9,8 +9,8 @@ from flask import Flask, request, jsonify
 MARGIN = 200
 LANDMARK_FILL = (77, 182, 172, 200)
 LANDMARK_WIDTH = 2
-ORIGINAL_CONSTRAINTS = (1920, 1920)
-THUMBNAIL_CONSTRAINTS = (640, 640)
+ORIGINAL_CONSTRAINTS = (1280, 1280)
+OUTPUT_CONSTRAINTS = (640, 640)
 FACE_SIZE = 160
 HOSTNAME = 'https://titan.enblom.com/'
 app = Flask(__name__)
@@ -48,7 +48,7 @@ def detect_faces_in_image(file_stream, filename):
     output_landmark_filename = "static/{}/{}_landmark.png".format(filename, unique_name)
     output_model_filename = "static/{}/{}_model.dat".format(filename, unique_name)
 
-    bottom += (MARGIN * 3)
+    bottom += (MARGIN * 2)
     right += MARGIN
     left -= MARGIN
     top -= MARGIN
@@ -117,13 +117,13 @@ def detect_faces_in_image(file_stream, filename):
     output_image = pre_cropped_image.crop((left, top, right, bottom))
     landmark_output_image = landmark_image.crop((left, top, right, bottom))
 
-    output_image.thumbnail(THUMBNAIL_CONSTRAINTS)
+    output_image.thumbnail(OUTPUT_CONSTRAINTS)
     output_image.save(output_filename, 'jpeg')
 
-    landmarked_output_image.thumbnail(THUMBNAIL_CONSTRAINTS)
+    landmarked_output_image.thumbnail(OUTPUT_CONSTRAINTS)
     landmarked_output_image.save(output_landmarked_filename, 'jpeg')
 
-    landmark_output_image.thumbnail(THUMBNAIL_CONSTRAINTS)
+    landmark_output_image.thumbnail(OUTPUT_CONSTRAINTS)
     landmark_output_image.save(output_landmark_filename, 'png')
 
     return jsonify(status='OK',
