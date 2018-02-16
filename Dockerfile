@@ -8,7 +8,7 @@ RUN apt-get install git -y
 RUN apt-get install cmake -y
 RUN apt-get install python3 -y 
 RUN apt-get install python3-pip -y
-RUN apt-get install libopenblas-dev liblapack-dev
+RUN apt-get install libopenblas-dev liblapack-dev -y
 RUN pip3 install --upgrade pip
 RUN pip3 install -U -r /requirements.txt
 
