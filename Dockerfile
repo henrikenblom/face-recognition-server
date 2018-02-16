@@ -10,6 +10,11 @@ RUN apt-get install python3 -y
 RUN apt-get install python3-pip -y
 RUN pip3 install --upgrade pip
 RUN pip3 install -U -r /requirements.txt
+
+RUN git clone https://github.com/davisking/dlib
+WORKDIR dlib
+RUN python3 setup.py install
+
 RUN pip3 install git+https://github.com/ageitgey/face_recognition_models
 
 WORKDIR /app

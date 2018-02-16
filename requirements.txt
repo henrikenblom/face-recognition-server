@@ -11,7 +11,6 @@ Click
 numpy
 Pillow
 scipy
-dlib
 flask
 flask-cors
 firebase-admin
