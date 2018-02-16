@@ -3,7 +3,7 @@ services:
   face-recognition-server:
     image: henrikenblom/face-recognition-server:latest
     volumes:
-      -  ~henrik/face-recognition-server/static:/app/static
+      -  /home/henrik/face-recognition-server/static:/app/static
     deploy:
       replicas: 5
       resources:
