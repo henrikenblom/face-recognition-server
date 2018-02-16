@@ -25,7 +25,6 @@ RUN python3 setup.py install
 RUN pip3 install git+https://github.com/ageitgey/face_recognition_models
 
 WORKDIR /app
-RUN mkdir /app/static
 
 ADD $PWD/*.py /app
 
