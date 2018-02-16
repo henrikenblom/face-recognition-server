@@ -5,6 +5,7 @@ ADD $PWD/requirements.txt /requirements.txt
 RUN apt-get update
 RUN apt-get install apt-utils -y
 RUN apt-get install git -y
+RUN apt-get install cmake -y
 RUN apt-get install python3 -y 
 RUN apt-get install python3-pip -y
 RUN pip3 install --upgrade pip
