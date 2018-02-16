@@ -1,6 +1,8 @@
 FROM nvidia/cuda:9.1-devel
 
 ADD $PWD/requirements.txt /requirements.txt
+ADD $PWD/cudnn/libcudnn7_7.0.5.15-1+cuda9.1_amd64.deb /libcudnn7_7.0.5.15-1+cuda9.1_amd64.deb
+ADD $PWD/cudnn/libcudnn7-dev_7.0.5.15-1+cuda9.1_amd64.deb /libcudnn7-dev_7.0.5.15-1+cuda9.1_amd64.deb
 
 RUN apt-get update
 RUN apt-get install apt-utils -y
@@ -9,6 +11,10 @@ RUN apt-get install cmake -y
 RUN apt-get install python3 -y 
 RUN apt-get install python3-pip -y
 RUN apt-get install libopenblas-dev liblapack-dev -y
+
+RUN dpkg -i libcudnn7_7.0.5.15-1+cuda9.1_amd64.deb
+RUN dpkg -i libcudnn7-dev_7.0.5.15-1+cuda9.1_amd64.deb
+
 RUN pip3 install --upgrade pip
 RUN pip3 install -U -r /requirements.txt
 
