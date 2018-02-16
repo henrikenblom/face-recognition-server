@@ -1,7 +1,9 @@
-version: "1"
+version: "3"
 services:
   face-recognition-server:
     image: henrikenblom/face-recognition-server:latest
+    volumes:
+      -  ~henrik/face-recognition-server/static:/app/static
     deploy:
       replicas: 5
       resources:
