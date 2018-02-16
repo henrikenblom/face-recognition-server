@@ -8,9 +8,13 @@ RUN apt-get install git -y
 RUN apt-get install cmake -y
 RUN apt-get install python3 -y 
 RUN apt-get install python3-pip -y
+RUN apt-get install libopenblas-dev liblapack-dev
 RUN pip3 install --upgrade pip
 RUN pip3 install -U -r /requirements.txt
 
+RUN ln -s /usr/lib/x86_64-linux-gnu/libcudnn.so.7.0.5 /usr/local/cuda/lib64/libcudnn.so
+RUN ln -s /usr/lib/x86_64-linux-gnu/libcudnn.so.7.0.5 /usr/local/cuda/lib64/libcudnn.so.7
+RUN ln -s /usr/lib/x86_64-linux-gnu/libcudnn.so.7.0.5 /usr/local/cuda/lib64/libcudnn.so.7.0.5
 RUN git clone https://github.com/davisking/dlib
 WORKDIR dlib
 RUN python3 setup.py install
