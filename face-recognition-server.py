@@ -6,10 +6,10 @@ import numpy as np
 from PIL import Image, ImageEnhance, ImageOps, ImageDraw
 from flask import Flask, request, jsonify
 
-MARGIN = 200
+MARGIN = 400
 LANDMARK_FILL = (77, 182, 172, 200)
 LANDMARK_WIDTH = 2
-ORIGINAL_CONSTRAINTS = (1280, 1280)
+ORIGINAL_CONSTRAINTS = (1920, 1920)
 OUTPUT_CONSTRAINTS = (640, 640)
 FACE_SIZE = 160
 HOSTNAME = 'https://titan.enblom.com/'
