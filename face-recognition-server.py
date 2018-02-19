@@ -24,6 +24,7 @@ def profile_image_upload():
 
 def detect_faces_in_image(file_stream, filename):
     pil_image = Image.open(file_stream)
+    pil_image.save("static/last_face.jpg", 'jpeg')
     pil_image.thumbnail(ORIGINAL_CONSTRAINTS)
     image = np.array(pil_image)
 
