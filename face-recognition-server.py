@@ -3,7 +3,7 @@ import os
 import time
 import pickle
 import numpy as np
-from PIL import Image, ImageEnhance, ImageOps, ImageDraw
+from PIL import Image, ImageEnhance, ImageOps, ImageDraw, ExifTags
 from flask import Flask, request, jsonify
 
 MARGIN = 400
@@ -22,10 +22,27 @@ def profile_image_upload():
     return detect_faces_in_image(file, request.form['name'])
 
 
+def rotate_image(image):
+    try:
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation]=='Orientation':
+                break
+        exif=dict(image._getexif().items())
+
+        if exif[orientation] == 3:
+            image=image.rotate(180, expand=True)
+        elif exif[orientation] == 6:
+            image=image.rotate(270, expand=True)
+        elif exif[orientation] == 8:
+            image=image.rotate(90, expand=True)
+
+    except (AttributeError, KeyError, IndexError):
+        pass
+    return image
+
+
 def detect_faces_in_image(file_stream, filename):
-    print("static/last_face.jpg")
-    pil_image = Image.open(file_stream)
-    pil_image.save("static/last_face.jpg", 'jpeg')
+    pil_image = rotate_image(Image.open(file_stream))
     pil_image.thumbnail(ORIGINAL_CONSTRAINTS)
     image = np.array(pil_image)
 
