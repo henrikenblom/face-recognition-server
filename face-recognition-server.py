@@ -11,6 +11,7 @@ LANDMARK_FILL = (77, 182, 172, 200)
 LANDMARK_WIDTH = 2
 ORIGINAL_CONSTRAINTS = (1920, 1920)
 OUTPUT_CONSTRAINTS = (640, 640)
+THUMBNAIL_CONSTRAINTS = (64, 64)
 FACE_SIZE = 160
 HOSTNAME = 'https://titan.enblom.com/'
 app = Flask(__name__)
@@ -63,6 +64,7 @@ def detect_faces_in_image(file_stream, filename):
 
     unique_name = int(time.time() * 1000)
     output_filename = "static/{}/{}.jpg".format(filename, unique_name)
+    output_thumbnail_filename = "static/{}/{}_thumbnail.jpg".format(filename, unique_name)
     output_landmarked_filename = "static/{}/{}_landmarked.jpg".format(filename, unique_name)
     output_landmark_filename = "static/{}/{}_landmark.png".format(filename, unique_name)
     output_model_filename = "static/{}/{}_model.dat".format(filename, unique_name)
@@ -139,6 +141,9 @@ def detect_faces_in_image(file_stream, filename):
     output_image.thumbnail(OUTPUT_CONSTRAINTS)
     output_image.save(output_filename, 'jpeg')
 
+    output_image.thumbnail(THUMBNAIL_CONSTRAINTS)
+    output_image.save(output_thumbnail_filename, 'jpeg')
+
     landmarked_output_image.thumbnail(OUTPUT_CONSTRAINTS)
     landmarked_output_image.save(output_landmarked_filename, 'jpeg')
 
@@ -148,7 +153,8 @@ def detect_faces_in_image(file_stream, filename):
     return jsonify(status='OK',
                    url=HOSTNAME + output_filename,
                    landmarked_url=HOSTNAME + output_landmarked_filename,
-                   landmark_url=HOSTNAME + output_landmark_filename)
+                   landmark_url=HOSTNAME + ,
+                   thumbnail_url=HOSTNAME + output_thumbnail_filename)
 
 
 if __name__ == '__main__':
