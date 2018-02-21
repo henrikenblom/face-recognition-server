@@ -153,7 +153,7 @@ def detect_faces_in_image(file_stream, filename):
     return jsonify(status='OK',
                    url=HOSTNAME + output_filename,
                    landmarked_url=HOSTNAME + output_landmarked_filename,
-                   landmark_url=HOSTNAME + ,
+                   landmark_url=HOSTNAME + output_landmark_filename,
                    thumbnail_url=HOSTNAME + output_thumbnail_filename)
 
 
