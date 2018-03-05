@@ -67,7 +67,7 @@ def detect_faces_in_image(file_stream, filename):
     output_thumbnail_filename = "static/{}/{}_thumbnail.jpg".format(filename, unique_name)
     output_landmarked_filename = "static/{}/{}_landmarked.jpg".format(filename, unique_name)
     output_landmark_filename = "static/{}/{}_landmark.png".format(filename, unique_name)
-    output_model_filename = "static/{}/{}_model.dat".format(filename, unique_name)
+    output_model_filename = "static/{}/model.dat".format(filename)
 
     bottom += (MARGIN * 2)
     right += MARGIN
